@@ -23,7 +23,11 @@ tiktoken: default is false
 	//$results:=$text_splitter.chunk({file: $file; capacity: "100..200"; overlap: 10})
 	
 	
-	$text_splitter.chunk({file: $file; capacity: "100..200"; overlap: 50}; Formula:C1597(onResponse))
+	$results:=$text_splitter.chunk({file: $file; capacity: "100..200"; overlap: 10; tiktoken: True:C214})
+	
+	SET TEXT TO PASTEBOARD:C523(JSON Stringify:C1217(JSON Parse:C1218($results[0]); *))
+	
+	//$text_splitter.chunk({file: $file; capacity: "100..200"; overlap: 50}; Formula(onResponse))
 	
 	
 End if 
