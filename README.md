@@ -32,13 +32,47 @@ $text_splitter:=cs.text_splitter.new()
 $results:=$text_splitter.chunk({file: $file; capacity: "100..200"; overlap: 10})
 ```
 
+* with tiktoken
+
+```4d
+$results:=$text_splitter.chunk({file: $file; capacity: "100..200"; overlap: 10; tiktoken: True})
+```
+
 * with callback function
 
 ```4d
 $text_splitter.chunk({file: $file; capacity: "100..200"; overlap: 50}; Formula(onResponse))
 ```
 
-#### result
+#### result (ticktoken=on)
+
+
+```json
+[
+	{
+		"text": "Exploring 4th Dimension: A Pioneer in Database Software Development\r\n4th Dimension, often abbreviated as 4D, is a powerful and mature software development platform that has played a significant role in the evolution of database and application development since the 1980s. Originally launched in 1984 by Laurent Ribardière and later developed and distributed by the French company 4D SAS, 4D is renowned for its integrated environment that combines a relational database engine with a programming language and graphical user interface tools. At its core, 4D is designed to allow developers to create customized business solutions rapidly and efficiently.",
+		"start": 0,
+		"end": 655
+	},
+	{
+		"text": "What makes 4D unique is its all-in-one approach. Unlike many modern development stacks that require external tools and complex integrations, 4D delivers a unified development experience where the database, programming logic, user interface, and server capabilities coexist within a single framework. This reduces the learning curve for new developers and accelerates the prototyping and deployment process. The 4D environment includes its own programming language—4D Language—which is both powerful and accessible, offering support for object-oriented programming, SQL commands, and modern coding practices.",
+		"start": 657,
+		"end": 1268
+	},
+	{
+		"text": "Over the decades, 4D has adapted to technological changes and maintained relevance by incorporating modern features such as support for REST APIs, JSON, ORDA (Object Relational Data Access), and mobile development integrations. This forward-thinking approach allows legacy applications to be maintained while also giving developers the tools they need to build cutting-edge web and cloud-based applications. Additionally, 4D Server enables scalable deployment options, allowing businesses to host multi-user applications on networks or in cloud environments with ease.\r\n4D is especially popular among small to medium-sized businesses, software consultants, and in-house IT departments looking for flexibility and speed without sacrificing power. Its cross-platform capabilities ensure that applications can run on both macOS and Windows systems seamlessly. Moreover, 4D’s built-in security features, backup management, and database integrity tools make it a dependable choice for mission-critical applications across industries such as healthcare, finance, logistics, and education.",
+		"start": 1270,
+		"end": 2354
+	},
+	{
+		"text": "Another strength of 4D is its dedicated community and comprehensive documentation. The company behind 4D provides frequent updates, professional support services, and active forums where developers can share knowledge, solve problems, and collaborate on best practices. 4D World Tour events and technical blogs further enrich the ecosystem, helping new and experienced users stay current with platform advancements.\r\nIn summary, 4th Dimension stands as a testament to the enduring value of integrated development environments. While it may not have the widespread name recognition of newer tools, it offers a mature, stable, and feature-rich environment for building custom applications tailored to business needs. For developers who value productivity, reliability, and deep control over both data and interface, 4D remains a compelling option in the modern software landscape.",
+		"start": 2356,
+		"end": 3234
+	}
+]
+```
+
+#### result (tiktoken=off)
 
 ```json
 [
