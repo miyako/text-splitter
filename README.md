@@ -6,6 +6,10 @@
 # text-splitter
 split text into semantic chunks, up to a desired chunk size (namespace: `text_splitter`)
 
+## similar projects
+
+* [overlap-chunk](https://github.com/miyako/overlap-chunk)
+
 ## acknowledgements
 
 [text-splitter](https://crates.io/crates/text-splitter)
