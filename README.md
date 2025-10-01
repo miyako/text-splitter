@@ -6,6 +6,24 @@
 # text-splitter
 split text into semantic chunks, up to a desired chunk size (namespace: `text_splitter`)
 
+### usage
+
+```4d
+$file:=File("/DATA/sample.txt")
+
+var $text_splitter : cs.text_splitter
+$text_splitter:=cs.text_splitter.new()
+/*
+	file can be file, text, BLOB
+	capacity can be a size (1000) or range ("500..1500")
+	overlap must be smaller than size
+	trim: default is true
+	markdown: default is false
+	tiktoken: default is false
+*/
+$results:=$text_splitter.chunk({file: $file; capacity: "100..200"; overlap: 10})
+```
+
 ## acknowledgements
 
 [text-splitter](https://crates.io/crates/text-splitter)
