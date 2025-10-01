@@ -6,6 +6,10 @@
 # text-splitter
 split text into semantic chunks, up to a desired chunk size (namespace: `text_splitter`)
 
+## acknowledgements
+
+[text-splitter](https://crates.io/crates/text-splitter)
+
 ### usage
 
 ```4d
@@ -30,10 +34,7 @@ $results:=$text_splitter.chunk({file: $file; capacity: "100..200"; overlap: 10})
 $text_splitter.chunk({file: $file; capacity: "100..200"; overlap: 50}; Formula(onResponse))
 ```
 
-## acknowledgements
-
-[text-splitter](https://crates.io/crates/text-splitter)
-
+#### result
 
 ```json
 [
