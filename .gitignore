@@ -6,3 +6,4 @@ rust/text-splitter/target/*
 text-splitter/Data/data.Match
 text-splitter/Data/data.4DD
 text-splitter/Data/data.journal
+actions-runner/*

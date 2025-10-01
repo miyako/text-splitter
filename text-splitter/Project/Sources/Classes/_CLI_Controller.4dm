@@ -138,9 +138,6 @@ Function _execute()
 	
 	This:C1470._complete:=False:C215
 	
-	var $SYSTEM_WORKER_CONTEXT : Text
-	$SYSTEM_WORKER_CONTEXT:=Generate UUID:C1066
-	
 	This:C1470._worker:=4D:C1709.SystemWorker.new(This:C1470._commands.shift(); This:C1470)
 	
 	This:C1470.SYSTEM_WORKER_CONTEXT[String:C10(This:C1470._worker.pid)]:=This:C1470._contexts.shift()

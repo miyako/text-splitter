@@ -9,7 +9,7 @@ Class constructor($CLI : cs:C1710._CLI)
 	
 	This:C1470.clear()
 	
-Function clear() : cs:C1710._lx_Controller
+Function clear() : cs:C1710._text_splitter_Controller
 	
 	This:C1470.stdOut:=""
 	This:C1470.stdErr:=""
