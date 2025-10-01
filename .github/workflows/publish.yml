@@ -12,9 +12,10 @@ on:
   workflow_dispatch:
     inputs:
         use_self_hosted:
+            type: boolean
             description: when github hosted runners are busy
             required: true
-            default: "false"
+            default: false
         mode:
           type: choice
           description: semantic versioning
