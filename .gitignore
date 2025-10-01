@@ -1,1 +1,8 @@
 rust/text-splitter/text-splitter.dmg
+text-splitter/userPreferences.*
+text-splitter/Project/DerivedData/formAttributes.json
+text-splitter/Project/DerivedData/methodAttributes.json
+rust/text-splitter/target/*
+text-splitter/Data/data.Match
+text-splitter/Data/data.4DD
+text-splitter/Data/data.journal

@@ -1,0 +1,463 @@
+{
+	"_method_": {},
+	"cs.overlap_chunk": {
+		"_CLI": {
+			"new()": {
+				"Syntax": "**.new**( *executableName* : Text; *controller* : 4D.Class )",
+				"Params": [
+					[
+						"executableName",
+						"Text",
+						"->"
+					],
+					[
+						"controller",
+						"4D.Class",
+						"->"
+					]
+				],
+				"Summary": ""
+			}
+		},
+		"_CLI_Controller": {
+			"new()": {
+				"Syntax": "**.new**( *CLI* : cs.overlap_chunk._CLI )",
+				"Params": [
+					[
+						"CLI",
+						"cs.overlap_chunk._CLI",
+						"->"
+					]
+				],
+				"Summary": ""
+			}
+		},
+		"_overlap_chunk_Controller": {
+			"new()": {
+				"Syntax": "**.new**( *CLI* : cs.overlap_chunk._CLI )",
+				"Params": [
+					[
+						"CLI",
+						"cs.overlap_chunk._CLI",
+						"->"
+					]
+				],
+				"Summary": ""
+			}
+		},
+		"_Form": {
+			"new()": {
+				"Syntax": "**.new**()",
+				"Params": [],
+				"Summary": ""
+			}
+		},
+		"overlap_chunk": {
+			"new()": {
+				"Syntax": "**.new**( *controller* : 4D.Class )",
+				"Params": [
+					[
+						"controller",
+						"4D.Class",
+						"->"
+					]
+				],
+				"Summary": ""
+			}
+		}
+	},
+	"_CLI": {
+		"quote()": {
+			"Syntax": "**.quote**( *in* : Text )->out : Text",
+			"Params": [
+				[
+					"in",
+					"Text",
+					"->"
+				],
+				[
+					"out",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"escape()": {
+			"Syntax": "**.escape**( *in* : Text )->out : Text",
+			"Params": [
+				[
+					"in",
+					"Text",
+					"->"
+				],
+				[
+					"out",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get controller()": {
+			"Syntax": "**.get controller**()->controller : cs.overlap_chunk._CLI_Controller",
+			"Params": [
+				[
+					"controller",
+					"cs.overlap_chunk._CLI_Controller",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get executablePath()": {
+			"Syntax": "**.get executablePath**()->executablePath : Text",
+			"Params": [
+				[
+					"executablePath",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"expand()": {
+			"Syntax": "**.expand**( *in* : Object )->out : Object",
+			"Params": [
+				[
+					"in",
+					"Object",
+					"->"
+				],
+				[
+					"out",
+					"Object",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get currentDirectory()": {
+			"Syntax": "**.get currentDirectory**()->currentDirectory : 4D.Folder",
+			"Params": [
+				[
+					"currentDirectory",
+					"4D.Folder",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get name()": {
+			"Syntax": "**.get name**()->name : Text",
+			"Params": [
+				[
+					"name",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get executableFile()": {
+			"Syntax": "**.get executableFile**()->executableFile : 4D.File",
+			"Params": [
+				[
+					"executableFile",
+					"4D.File",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get platform()": {
+			"Syntax": "**.get platform**()->platform : Text",
+			"Params": [
+				[
+					"platform",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get EOL()": {
+			"Syntax": "**.get EOL**()->EOL : Text",
+			"Params": [
+				[
+					"EOL",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get executableName()": {
+			"Syntax": "**.get executableName**()->executableName : Text",
+			"Params": [
+				[
+					"executableName",
+					"Text",
+					"<-"
+				]
+			],
+			"Summary": ""
+		}
+	},
+	"_CLI_Controller": {
+		"get commands()": {
+			"Syntax": "**.get commands**()->commands : Collection",
+			"Params": [
+				[
+					"commands",
+					"Collection",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get complete()": {
+			"Syntax": "**.get complete**()->complete : Boolean",
+			"Params": [
+				[
+					"complete",
+					"Boolean",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"terminate()": {
+			"Syntax": "**.terminate**()",
+			"Params": [],
+			"Summary": ""
+		},
+		"execute()": {
+			"Syntax": "**.execute**( *command* : Variant; *message* : Variant; *context* : Variant ) : cs.overlap_chunk._CLI_Controller",
+			"Params": [
+				[
+					"command",
+					"Variant",
+					"->"
+				],
+				[
+					"message",
+					"Variant",
+					"->"
+				],
+				[
+					"context",
+					"Variant",
+					"->"
+				],
+				[
+					"",
+					"cs.overlap_chunk._CLI_Controller",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get worker()": {
+			"Syntax": "**.get worker**()->worker : 4D.SystemWorker",
+			"Params": [
+				[
+					"worker",
+					"4D.SystemWorker",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get instance()": {
+			"Syntax": "**.get instance**()->instance : cs.overlap_chunk._CLI",
+			"Params": [
+				[
+					"instance",
+					"cs.overlap_chunk._CLI",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"SYSTEM_WORKER_CONTEXT": {
+			"Syntax": "SYSTEM_WORKER_CONTEXT : Object"
+		},
+		"onTerminate": {
+			"Syntax": "onTerminate : 4D.Function"
+		},
+		"timeout": {
+			"Syntax": "timeout : Variant"
+		},
+		"onResponse": {
+			"Syntax": "onResponse : 4D.Function"
+		},
+		"currentDirectory": {
+			"Syntax": "currentDirectory : 4D.Folder"
+		},
+		"encoding": {
+			"Syntax": "encoding : Text"
+		},
+		"dataType": {
+			"Syntax": "dataType : Text"
+		},
+		"variables": {
+			"Syntax": "variables : Object"
+		},
+		"hideWindow": {
+			"Syntax": "hideWindow : Boolean"
+		}
+	},
+	"_overlap_chunk_Controller": {
+		"onTerminate()": {
+			"Syntax": "**.onTerminate**( *worker* : 4D.SystemWorker; *params* : Object )",
+			"Params": [
+				[
+					"worker",
+					"4D.SystemWorker",
+					"->"
+				],
+				[
+					"params",
+					"Object",
+					"->"
+				]
+			],
+			"Summary": ""
+		},
+		"onResponse()": {
+			"Syntax": "**.onResponse**( *worker* : 4D.SystemWorker; *params* : Object )",
+			"Params": [
+				[
+					"worker",
+					"4D.SystemWorker",
+					"->"
+				],
+				[
+					"params",
+					"Object",
+					"->"
+				]
+			],
+			"Summary": ""
+		},
+		"onError()": {
+			"Syntax": "**.onError**( *worker* : 4D.SystemWorker; *params* : Object )",
+			"Params": [
+				[
+					"worker",
+					"4D.SystemWorker",
+					"->"
+				],
+				[
+					"params",
+					"Object",
+					"->"
+				]
+			],
+			"Summary": ""
+		},
+		"onDataError()": {
+			"Syntax": "**.onDataError**( *worker* : 4D.SystemWorker; *params* : Object )",
+			"Params": [
+				[
+					"worker",
+					"4D.SystemWorker",
+					"->"
+				],
+				[
+					"params",
+					"Object",
+					"->"
+				]
+			],
+			"Summary": ""
+		},
+		"onData()": {
+			"Syntax": "**.onData**( *worker* : 4D.SystemWorker; *params* : Object )",
+			"Params": [
+				[
+					"worker",
+					"4D.SystemWorker",
+					"->"
+				],
+				[
+					"params",
+					"Object",
+					"->"
+				]
+			],
+			"Summary": ""
+		},
+		"clear()": {
+			"Syntax": "**.clear**() : cs.overlap_chunk._lx_Controller",
+			"Params": [
+				[
+					"",
+					"cs.overlap_chunk._lx_Controller",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"stdErr": {
+			"Syntax": "stdErr : Text"
+		},
+		"stdOut": {
+			"Syntax": "stdOut : Text"
+		},
+		"_inheritedFrom_": "_CLI_Controller"
+	},
+	"_Form": {
+		"onUnload()": {
+			"Syntax": "**.onUnload**()",
+			"Params": [],
+			"Summary": ""
+		},
+		"onLoad()": {
+			"Syntax": "**.onLoad**()",
+			"Params": [],
+			"Summary": ""
+		}
+	},
+	"overlap_chunk": {
+		"terminate()": {
+			"Syntax": "**.terminate**()",
+			"Params": [],
+			"Summary": ""
+		},
+		"chunk()": {
+			"Syntax": "**.chunk**( *option* : Variant; *formula* : 4D.Function ) : Collection",
+			"Params": [
+				[
+					"option",
+					"Variant",
+					"->"
+				],
+				[
+					"formula",
+					"4D.Function",
+					"->"
+				],
+				[
+					"",
+					"Collection",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"get worker()": {
+			"Syntax": "**.get worker**() : 4D.SystemWorker",
+			"Params": [
+				[
+					"",
+					"4D.SystemWorker",
+					"<-"
+				]
+			],
+			"Summary": ""
+		},
+		"_inheritedFrom_": "_CLI"
+	}
+}
