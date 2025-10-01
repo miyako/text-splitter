@@ -82,7 +82,7 @@ Function chunk($option : Variant; $formula : 4D:C1709.Function) : Collection
 		End if 
 		
 		var $worker : 4D:C1709.SystemWorker
-		$worker:=This:C1470.controller.execute($command; $isStream ? $option.file : $option.context; $option.data).worker
+		$worker:=This:C1470.controller.execute($command; $isStream ? $option.file : Null:C1517; $option.data).worker
 		
 		If (Not:C34($isAsync))
 			$worker.wait()
