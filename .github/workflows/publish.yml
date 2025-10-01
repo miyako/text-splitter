@@ -112,7 +112,7 @@ jobs:
   publish-locally:
     if: ${{ github.event.inputs.use_self_hosted == 'true' }}
     permissions: write-all
-    runs-on: [macos-latest]
+    runs-on: [self-hosted, macos]
     steps:
 
       - name: configure
