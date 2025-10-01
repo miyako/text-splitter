@@ -24,6 +24,12 @@ $text_splitter:=cs.text_splitter.new()
 $results:=$text_splitter.chunk({file: $file; capacity: "100..200"; overlap: 10})
 ```
 
+* with callback function
+
+```4d
+$text_splitter.chunk({file: $file; capacity: "100..200"; overlap: 50}; Formula(onResponse))
+```
+
 ## acknowledgements
 
 [text-splitter](https://crates.io/crates/text-splitter)
