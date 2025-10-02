@@ -4,7 +4,7 @@
 ![downloads](https://img.shields.io/github/downloads/miyako/text-splitter/total)
 
 # text-splitter
-split text into semantic chunks, up to a desired chunk size (namespace: `text_splitter`)
+tool to split text into semantic chunks (namespace: `text_splitter`)
 
 ## similar projects
 
