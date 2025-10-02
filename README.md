@@ -12,37 +12,62 @@ tool to split text into semantic chunks (namespace: `text_splitter`)
 
 ## acknowledgements
 
-[text-splitter](https://crates.io/crates/text-splitter)
+* [text-splitter](https://crates.io/crates/text-splitter)
 
-### usage
+## usage
+
+instantiate the class with no parameters.
 
 ```4d
-$file:=File("/DATA/sample.txt")
+var $text_splitter : cs.text_splitter.text_splitter
+$text_splitter:=cs.text_splitter.text_splitter.new()
+```
 
-var $text_splitter : cs.text_splitter
-$text_splitter:=cs.text_splitter.new()
-/*
-	file can be file, text, BLOB
-	capacity can be a size (1000) or range ("500..1500")
-	overlap must be smaller than size
-	trim: default is true
-	markdown: default is false
-	tiktoken: default is false
-*/
+there are 2 ways to invoke `.chunk()`; synchronous and asynchronous.
+
+**synchronous**: pass a single parameter and receive a collection of results in return.
+
+```4d
 $results:=$text_splitter.chunk({file: $file; capacity: "100..200"; overlap: 10})
 ```
 
-* with tiktoken
+you can pass a single object or a collection of objects in a single call.
+
+**asynchronous**: pass a second formula parameter. an empty collection is returned at this point.
+
+the formula should have the following signature:
 
 ```4d
-$results:=$text_splitter.chunk({file: $file; capacity: "100..200"; overlap: 10; tiktoken: True})
+#DECLARE($worker : 4D.SystemWorker; $params : Object)
+
+var $text : Text
+$text:=$worker.response
 ```
 
-* with callback function
+> [!TIP]
+> whatever value you pass in `data` is returned in `context`
 
 ```4d
-$text_splitter.chunk({file: $file; capacity: "100..200"; overlap: 50}; Formula(onResponse))
+$text_splitter.chunk({file: $file.getContent(); data: $file}; Formula(onResponse))
 ```
+```4d
+#DECLARE($worker : 4D.SystemWorker; $params : Object)
+
+var $text : Text
+$text:=$worker.response
+$file:=$params.context
+```
+
+use this to match input against output.
+
+|property|type|description|
+|-|-|-|
+|`file`|`4D.File` `4D.Blob` `Text`|input|
+|`capacity`|`Integer` `Text`|can be a size (`1000`) or range (`"500..1500"`)|
+|`overlap`|`Integer`|should be smaller than `capacity`|
+|`trim`|`Boolean`|default: `False`|
+|`markdown`|`Boolean`|default: `False`|
+|`tiktoken`|`Boolean`|default: `False`|
 
 #### result (ticktoken=on)
 
