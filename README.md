@@ -69,7 +69,7 @@ use this to match input against output.
 |`markdown`|`Boolean`|default: `False`|
 |`tiktoken`|`Boolean`|default: `False`|
 
-> [!TIP]
+> [!NOTE]
 > Results are returned as collection of JSON text, not collection of collections. Use `JSON Parse` if necessary.
 
 
