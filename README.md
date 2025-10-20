@@ -45,7 +45,7 @@ $text:=$worker.response
 ```
 
 > [!TIP]
-> whatever value you pass in `data` is returned in `context`
+> whatever value you pass in `data` is returned in `context`.
 
 ```4d
 $text_splitter.chunk({file: $file.getContent(); data: $file}; Formula(onResponse))
@@ -69,8 +69,11 @@ use this to match input against output.
 |`markdown`|`Boolean`|default: `False`|
 |`tiktoken`|`Boolean`|default: `False`|
 
-#### result (ticktoken=on)
+> [!TIP]
+> Results are returned as collection of JSON text, not collection of collections. Use `JSON Parse` if necessary.
 
+
+#### result (ticktoken=on)
 
 ```json
 [
