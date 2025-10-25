@@ -1,6 +1,6 @@
 {
   "name": "text-splitter",
-  "description": "",
+  "description": "Tool to split text into semantic chunks",
   "author": [
     "Ben Brandt <benjamin.j.brandt@gmail.com>",
     "Keisuke Miyako <keisuke.miyako@4D.com>"

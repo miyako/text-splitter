@@ -4,7 +4,7 @@
 ![downloads](https://img.shields.io/github/downloads/miyako/text-splitter/total)
 
 # text-splitter
-tool to split text into semantic chunks (namespace: `text_splitter`)
+Tool to split text into semantic chunks (namespace: `text_splitter`)
 
 ## similar projects
 
@@ -45,7 +45,7 @@ $text:=$worker.response
 ```
 
 > [!TIP]
-> whatever value you pass in `data` is returned in `context`
+> whatever value you pass in `data` is returned in `context`.
 
 ```4d
 $text_splitter.chunk({file: $file.getContent(); data: $file}; Formula(onResponse))
@@ -69,8 +69,11 @@ use this to match input against output.
 |`markdown`|`Boolean`|default: `False`|
 |`tiktoken`|`Boolean`|default: `False`|
 
-#### result (ticktoken=on)
+> [!NOTE]
+> Results are returned as collection of JSON text, not collection of collections. Use `JSON Parse` if necessary.
 
+
+#### result (ticktoken=on)
 
 ```json
 [
