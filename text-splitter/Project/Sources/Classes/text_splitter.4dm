@@ -81,7 +81,7 @@ Function chunk($option : Variant; $formula : 4D:C1709.Function) : Collection
 			$command+=" --markdown "
 		End if 
 		
-		If ($option.compact#Null:C1517) && (Value type:C1509($option.compact)=Is boolean:K8:9)
+		If ($option.compact#Null:C1517) && (Value type:C1509($option.compact)=Is boolean:K8:9) && ($option.compact)
 			$command+=" --compact "
 		End if 
 		
