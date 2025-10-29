@@ -7,8 +7,9 @@ use text_splitter::{ChunkCapacity, ChunkConfig, TextSplitter, MarkdownSplitter};
 use tiktoken_rs::cl100k_base;
 
 #[derive(Serialize)]
-struct Chunk {
-    text: String,
+    struct Chunk {
+    #[serde(skip_serializing_if = "Option::is_none")]
+    text: Option<String>,
     start: usize,
     end: usize,
 }
@@ -44,6 +45,9 @@ struct Cli {
     #[arg(long, default_value_t = false)]
     tiktoken: bool,
 
+    /// Do not return chunks (default: false)
+    #[arg(long, default_value_t = false)]
+    compact: bool,
 }
 
 fn parse_capacity(s: &str) -> Result<ChunkCapacity, String> {
@@ -105,10 +109,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             .map(|chunk| {
                 let start = text.find(chunk).unwrap_or(0);
                 let end = start + chunk.len();
-                Chunk {
-                    text: chunk.to_string(),
-                    start,
-                    end,
+                if cli.compact {
+                    Chunk {
+                        text: None,
+                        start,
+                        end,
+                    }                 
+                } else {
+                    Chunk {
+                        text: Some(chunk.to_string()),
+                        start,
+                        end,
+                    }                    
                 }
             })
             .collect()        
@@ -119,10 +131,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .map(|chunk| {
             let start = text.find(chunk).unwrap_or(0);
             let end = start + chunk.len();
-            Chunk {
-                text: chunk.to_string(),
-                start,
-                end,
+            if cli.compact {
+                Chunk {
+                    text: None,
+                    start,
+                    end,
+                }                  
+            } else {
+                Chunk {
+                    text: Some(chunk.to_string()),
+                    start,
+                    end,
+                }                
             }
         })
         .collect()
@@ -133,10 +153,18 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             .map(|chunk| {
                 let start = text.find(chunk).unwrap_or(0);
                 let end = start + chunk.len();
-                Chunk {
-                    text: chunk.to_string(),
-                    start,
-                    end,
+                if cli.compact {
+                    Chunk {
+                        text: None,
+                        start,
+                        end,
+                    } 
+                } else {
+                    Chunk {
+                        text: Some(chunk.to_string()),
+                        start,
+                        end,
+                    }                    
                 }
             })
             .collect()
