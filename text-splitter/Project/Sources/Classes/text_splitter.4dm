@@ -73,16 +73,20 @@ Function chunk($option : Variant; $formula : 4D:C1709.Function) : Collection
 			$command+=String:C10(Int:C8($option.overlap))
 		End if 
 		
-		If ($option.tiktoken#Null:C1517) && (Value type:C1509($option.tiktoken)=Is boolean:K8:9)
+		If ($option.tiktoken#Null:C1517) && (Value type:C1509($option.tiktoken)=Is boolean:K8:9) && ($option.tiktoken)
 			$command+=" --tiktoken "
 		End if 
 		
-		If ($option.markdown#Null:C1517) && (Value type:C1509($option.markdown)=Is boolean:K8:9)
+		If ($option.markdown#Null:C1517) && (Value type:C1509($option.markdown)=Is boolean:K8:9) && ($option.markdown)
 			$command+=" --markdown "
 		End if 
 		
 		If ($option.compact#Null:C1517) && (Value type:C1509($option.compact)=Is boolean:K8:9) && ($option.compact)
 			$command+=" --compact "
+		End if 
+		
+		If ($option.batch#Null:C1517) && (Value type:C1509($option.batch)=Is boolean:K8:9) && ($option.batch)
+			$command+=" --batch "
 		End if 
 		
 		var $worker : 4D:C1709.SystemWorker
