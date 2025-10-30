@@ -1,7 +1,7 @@
 use std::fs::File;
 use std::io::{self, Read, Write};
 use std::path::PathBuf;
-use serde::Serialize;
+use serde::{Serialize, Deserialize};
 use clap::Parser;
 use text_splitter::{ChunkCapacity, ChunkConfig, TextSplitter, MarkdownSplitter};
 use tiktoken_rs::cl100k_base;
@@ -12,6 +12,12 @@ use tiktoken_rs::cl100k_base;
     text: Option<String>,
     start: usize,
     end: usize,
+    page: Option<usize>,
+}
+
+#[derive(Debug, Deserialize)]
+struct Document {
+    pages: Vec<String>,
 }
 
 #[derive(Parser, Debug)]
@@ -48,6 +54,10 @@ struct Cli {
     /// Do not return chunks (default: false)
     #[arg(long, default_value_t = false)]
     compact: bool,
+    
+    /// Input is JSON (default: false)
+    #[arg(long, default_value_t = false)]
+    batch: bool,
 }
 
 fn parse_capacity(s: &str) -> Result<ChunkCapacity, String> {
@@ -93,6 +103,64 @@ fn write_output(output: &Option<PathBuf>, chunks: &[Chunk]) -> io::Result<()> {
     Ok(())
 }
 
+fn make_chunks_tiktoken<Sizer: text_splitter::ChunkSizer>(
+    splitter: &TextSplitter<Sizer>, 
+    text: &String, 
+    i: std::option::Option<usize>, 
+    compact: bool) -> Vec<Chunk> {
+    splitter
+    .chunks(text)
+    .map(|chunk| {
+        let start = text.find(chunk).unwrap_or(0);
+        let end = start + chunk.len();
+        if compact {
+            Chunk {
+                text: None,
+                start,
+                end,
+                page: i,
+            }                  
+        } else {
+            Chunk {
+                text: Some(chunk.to_string()),
+                start,
+                end,
+                page: i,
+            }                
+        }
+    })
+    .collect()
+}
+
+fn make_chunks_markdown<Sizer: text_splitter::ChunkSizer>(
+        splitter: &MarkdownSplitter<Sizer>, 
+        text: &String, 
+        i: std::option::Option<usize>, 
+        compact: bool) -> Vec<Chunk> {
+        splitter
+        .chunks(text)
+        .map(|chunk| {
+            let start = text.find(chunk).unwrap_or(0);
+            let end = start + chunk.len();
+            if compact {
+                Chunk {
+                    text: None,
+                    start,
+                    end,
+                    page: i,
+                }                  
+            } else {
+                Chunk {
+                    text: Some(chunk.to_string()),
+                    start,
+                    end,
+                    page: i,
+                }                
+            }
+        })
+        .collect()
+    }
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let cli = Cli::parse();
 
@@ -101,75 +169,49 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let cfg = ChunkConfig::new(capacity).with_trim(cli.trim).with_overlap(cli.overlap)?;
 
     let text = read_input(&cli.input)?;
-    
+        
     let chunks: Vec<Chunk> = if cli.markdown {
         let splitter = MarkdownSplitter::new(cfg);
-        splitter
-            .chunks(&text)
-            .map(|chunk| {
-                let start = text.find(chunk).unwrap_or(0);
-                let end = start + chunk.len();
-                if cli.compact {
-                    Chunk {
-                        text: None,
-                        start,
-                        end,
-                    }                 
-                } else {
-                    Chunk {
-                        text: Some(chunk.to_string()),
-                        start,
-                        end,
-                    }                    
-                }
-            })
-            .collect()        
-    } else if cli.tiktoken {
-        let splitter = TextSplitter::new(cfg.with_sizer(cl100k_base().unwrap()));        
-        splitter
-        .chunks(&text)
-        .map(|chunk| {
-            let start = text.find(chunk).unwrap_or(0);
-            let end = start + chunk.len();
-            if cli.compact {
-                Chunk {
-                    text: None,
-                    start,
-                    end,
-                }                  
-            } else {
-                Chunk {
-                    text: Some(chunk.to_string()),
-                    start,
-                    end,
-                }                
+        let mut chunks: Vec<Chunk> = vec![];
+        if cli.batch {
+            let doc: Document = serde_json::from_str(&text)?;
+            for (i, page) in doc.pages.iter().enumerate() {
+                chunks.extend(make_chunks_markdown(&splitter, &page, Some(i), cli.compact));
             }
-        })
-        .collect()
+        } else {
+            let i: std::option::Option<usize> = None;
+          chunks.extend(make_chunks_markdown(&splitter, &text, i, cli.compact));
+        }  
+        chunks
+              
+    } else if cli.tiktoken {
+        let splitter = TextSplitter::new(cfg.with_sizer(cl100k_base().unwrap())); 
+        let mut chunks: Vec<Chunk> = vec![];
+        if cli.batch {
+            let doc: Document = serde_json::from_str(&text)?;
+            for (i, page) in doc.pages.iter().enumerate() {
+                chunks.extend(make_chunks_tiktoken(&splitter, &page, Some(i), cli.compact));
+            }
+        } else {
+            let i: std::option::Option<usize> = None;
+          chunks.extend(make_chunks_tiktoken(&splitter, &text, i, cli.compact));
+        }  
+        chunks
+        
     } else {
         let splitter = TextSplitter::new(cfg);
-        splitter
-            .chunks(&text)
-            .map(|chunk| {
-                let start = text.find(chunk).unwrap_or(0);
-                let end = start + chunk.len();
-                if cli.compact {
-                    Chunk {
-                        text: None,
-                        start,
-                        end,
-                    } 
-                } else {
-                    Chunk {
-                        text: Some(chunk.to_string()),
-                        start,
-                        end,
-                    }                    
-                }
-            })
-            .collect()
+        let mut chunks: Vec<Chunk> = vec![];
+        if cli.batch {
+            let doc: Document = serde_json::from_str(&text)?;
+            for (i, page) in doc.pages.iter().enumerate() {
+                chunks.extend(make_chunks_tiktoken(&splitter, &page, Some(i), cli.compact));
+            }
+        } else {
+            let i: std::option::Option<usize> = None;
+          chunks.extend(make_chunks_tiktoken(&splitter, &text, i, cli.compact));
+        }  
+        chunks
     };
-
 
     write_output(&cli.output, &chunks)?;
 
