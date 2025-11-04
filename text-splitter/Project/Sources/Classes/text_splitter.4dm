@@ -89,6 +89,11 @@ Function chunk($option : Variant; $formula : 4D:C1709.Function) : Collection
 			$command+=" --batch "
 		End if 
 		
+		If (Not:C34($stdOut))
+			$command+=" --output "
+			$command+=This:C1470.escape(This:C1470.expand($option.output).path)
+		End if 
+		
 		var $worker : 4D:C1709.SystemWorker
 		$worker:=This:C1470.controller.execute($command; $isStream ? $option.file : Null:C1517; $option.data).worker
 		
