@@ -1,10 +1,19 @@
 Class extends _CLI
 
-Class constructor($controller : 4D:C1709.Class)
+Class constructor($class : 4D:C1709.Class)
 	
-	If (Not:C34(OB Instance of:C1731($controller; cs:C1710._text_splitter_Controller)))
-		$controller:=cs:C1710._text_splitter_Controller
-	End if 
+	var $controller : 4D:C1709.Class
+	var $superclass : 4D:C1709.Class
+	$superclass:=$class.superclass
+	$controller:=cs:C1710._text_splitter_Controller
+	
+	While ($superclass#Null:C1517)
+		If ($superclass=$controller)
+			$controller:=$class
+			break
+		End if 
+		$superclass:=$superclass.superclass
+	End while 
 	
 	Super:C1705("text-splitter"; $controller)
 	
@@ -15,6 +24,10 @@ Function get worker() : 4D:C1709.SystemWorker
 Function terminate()
 	
 	This:C1470.controller.terminate()
+	
+Function get controller : cs:C1710._text_splitter_Controller
+	
+	return This:C1470._controller
 	
 Function chunk($option : Variant; $formula : 4D:C1709.Function) : Collection
 	
@@ -102,16 +115,12 @@ Function chunk($option : Variant; $formula : 4D:C1709.Function) : Collection
 		End if 
 		
 		If (Not:C34($isAsync))
-			//%W-550.26
-			//%W-550.2
 			If ($stdOut)
 				$results.push(This:C1470.controller.stdOut)
 			Else 
 				$results.push(Null:C1517)
 			End if 
 			This:C1470.controller.clear()
-			//%W+550.2
-			//%W+550.26
 		End if 
 		
 	End for each 
