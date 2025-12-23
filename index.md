@@ -43,7 +43,6 @@ var $text : Text
 $text:=$worker.response
 ```
 
-> [!TIP]
 > whatever value you pass in `data` is returned in `context`.
 
 ```4d
@@ -70,5 +69,4 @@ use `$params.context` to match input against output.
 |`compact`|`Boolean`|output without inclde text. default: `False`|
 |`batch`|`Boolean`|input is JSON collection of text. default: `False`|
 
-> [!NOTE]
 > Results are returned as collection of JSON text, not collection of collections. Use `JSON Parse` if necessary.
