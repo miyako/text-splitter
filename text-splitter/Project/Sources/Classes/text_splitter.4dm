@@ -8,7 +8,7 @@ Class constructor($class : 4D:C1709.Class)
 	$controller:=cs:C1710._text_splitter_Controller
 	
 	While ($superclass#Null:C1517)
-		If ($superclass.name=$controller.new)
+		If ($superclass.name=$controller.name)
 			$controller:=$class
 			break
 		End if 
