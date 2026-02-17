@@ -21,13 +21,13 @@ markdown: default is false
 tiktoken: default is false
 */
 	//$results:=$text_splitter.chunk({file: $file; capacity: "100..200"; overlap: 10})
+	//$results:=$text_splitter.chunk({file: $file; capacity: "100..200"; overlap: 10; tiktoken: True})
+	//SET TEXT TO PASTEBOARD(JSON Stringify(JSON Parse($results[0]); *))
 	
-	
-	$results:=$text_splitter.chunk({file: $file; capacity: "100..200"; overlap: 10; tiktoken: True:C214})
-	
-	SET TEXT TO PASTEBOARD:C523(JSON Stringify:C1217(JSON Parse:C1218($results[0]); *))
-	
-	//$text_splitter.chunk({file: $file; capacity: "100..200"; overlap: 50}; Formula(onResponse))
-	
+	For ($i; 1; 30)
+		$text_splitter.chunk({file: $file; capacity: "100..200"; overlap: 50}; Formula:C1597(onResponse))
+	End for 
 	
 End if 
+
+//callbacks will fire only if we exit the method

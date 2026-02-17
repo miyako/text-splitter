@@ -159,16 +159,7 @@ Function _onExecute($worker : 4D:C1709.SystemWorker; $params : Object)
 	
 Function _countRunningWorkers() : Integer
 	
-	$formats:=cs:C1710.formats.new()
-	
-	var $extension : Text
-	var $controllers : Collection
-	$workers:=[]
-	For each ($extension; $formats.extensions)
-		$workers.combine(cs:C1710.extract.new($extension).extract.controller.workers)
-	End for each 
-	
-	return $workers.countValues(False:C215; "terminated")
+	return This:C1470.workers.countValues(False:C215; "terminated")
 	
 Function _execute($start : Boolean)
 	

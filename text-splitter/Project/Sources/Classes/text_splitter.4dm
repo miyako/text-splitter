@@ -1,11 +1,11 @@
-Class extends _CLI
+property text_splitter : cs:C1710._text_splitter
 
 Class constructor($class : 4D:C1709.Class)
 	
 	var $controller : 4D:C1709.Class
 	var $superclass : 4D:C1709.Class
 	$superclass:=$class.superclass
-	$controller:=cs:C1710._text_splitter_Controller
+	$controller:=cs:C1710._CLI_Controller
 	
 	While ($superclass#Null:C1517)
 		If ($superclass.name=$controller.name)
@@ -15,21 +15,33 @@ Class constructor($class : 4D:C1709.Class)
 		$superclass:=$superclass.superclass
 	End while 
 	
-	Super:C1705("text-splitter"; $controller)
+	This:C1470.text_splitter:=cs:C1710._text_splitter.new("text-splitter"; $controller)
 	
 Function get worker() : 4D:C1709.SystemWorker
 	
-	return This:C1470.controller.worker
+	return This:C1470.workers.first()
+	
+Function get workers() : Collection
+	
+	If (This:C1470.text_splitter=Null:C1517)
+		return 
+	End if 
+	
+	return This:C1470.text_splitter.controller.workers
 	
 Function terminate()
 	
-	This:C1470.controller.terminate()
+	If (This:C1470.text_splitter=Null:C1517)
+		return 
+	End if 
 	
-Function get controller : cs:C1710._text_splitter_Controller
-	
-	return This:C1470._controller
+	This:C1470.text_splitter.controller.terminate()
 	
 Function chunk($option : Variant; $formula : 4D:C1709.Function) : Collection
+	
+	If (This:C1470.text_splitter=Null:C1517)
+		return 
+	End if 
 	
 	var $stdOut; $isStream; $isAsync : Boolean
 	var $options : Collection
@@ -50,7 +62,12 @@ Function chunk($option : Variant; $formula : 4D:C1709.Function) : Collection
 	
 	If (OB Instance of:C1731($formula; 4D:C1709.Function))
 		$isAsync:=True:C214
-		This:C1470.controller.onResponse:=$formula
+		//once
+		If (This:C1470.text_splitter.controller._onResponse=Null:C1517)
+			Use (This:C1470.text_splitter.controller)
+				This:C1470.text_splitter.controller._onResponse:=$formula
+			End use 
+		End if 
 	End if 
 	
 	For each ($option; $options)
@@ -61,12 +78,12 @@ Function chunk($option : Variant; $formula : 4D:C1709.Function) : Collection
 		
 		$stdOut:=Not:C34(OB Instance of:C1731($option.output; 4D:C1709.File))
 		
-		$command:=This:C1470.escape(This:C1470.executablePath)
+		$command:=This:C1470.text_splitter.escape(This:C1470.text_splitter.executablePath)
 		
 		Case of 
 			: (Value type:C1509($option.file)=Is object:K8:27) && (OB Instance of:C1731($option.file; 4D:C1709.File)) && ($option.file.exists)
 				$command+=" --input "
-				$command+=This:C1470.escape(This:C1470.expand($option.file).path)
+				$command+=This:C1470.text_splitter.escape(This:C1470.text_splitter.expand($option.file).path)
 			: ((Value type:C1509($option.file)=Is object:K8:27) && (OB Instance of:C1731($option.file; 4D:C1709.Blob))) || (Value type:C1509($option.file)=Is BLOB:K8:12) || (Value type:C1509($option.file)=Is text:K8:3)
 				$command+=" "
 				$isStream:=True:C214
@@ -104,11 +121,11 @@ Function chunk($option : Variant; $formula : 4D:C1709.Function) : Collection
 		
 		If (Not:C34($stdOut))
 			$command+=" --output "
-			$command+=This:C1470.escape(This:C1470.expand($option.output).path)
+			$command+=This:C1470.text_splitter.escape(This:C1470.text_splitter.expand($option.output).path)
 		End if 
 		
 		var $worker : 4D:C1709.SystemWorker
-		$worker:=This:C1470.controller.execute($command; $isStream ? $option.file : Null:C1517; $option.data).worker
+		$worker:=This:C1470.text_splitter.controller.execute($command; $isStream ? $option.file : Null:C1517; $option.data).worker
 		
 		If (Not:C34($isAsync))
 			$worker.wait()
@@ -116,11 +133,10 @@ Function chunk($option : Variant; $formula : 4D:C1709.Function) : Collection
 		
 		If (Not:C34($isAsync))
 			If ($stdOut)
-				$results.push(This:C1470.controller.stdOut)
+				$results.push($worker.response)
 			Else 
 				$results.push(Null:C1517)
 			End if 
-			This:C1470.controller.clear()
 		End if 
 		
 	End for each 

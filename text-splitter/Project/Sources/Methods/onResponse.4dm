@@ -4,4 +4,4 @@
 var $text : Text
 $text:=$worker.response
 
-TRACE:C157
+//TRACE
