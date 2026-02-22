@@ -146,6 +146,12 @@ Function _onExecute($worker : 4D:C1709.SystemWorker; $params : Object)
 	
 	cs:C1710.logger.new().log([$instanceName; "End"; $worker.pid; This:C1470._commands.length])
 	
+	var $i : Integer
+	$i:=__SYSTEM_WORKERS__[$instanceName].indexOf($worker)
+	If ($i#-1)
+		__SYSTEM_WORKERS__[$instanceName].remove($i)
+	End if 
+	
 	If (This:C1470._commands.length=0)
 		This:C1470._abort()
 	Else 
