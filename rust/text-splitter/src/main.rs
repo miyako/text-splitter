@@ -108,36 +108,8 @@ fn make_chunks_tiktoken<Sizer: text_splitter::ChunkSizer>(
     text: &String, 
     i: std::option::Option<usize>, 
     compact: bool) -> Vec<Chunk> {
-    splitter
-    .chunks(text)
-    .map(|chunk| {
-        let start = text.find(chunk).unwrap_or(0);
-        let end = start + chunk.len();
-        if compact {
-            Chunk {
-                text: None,
-                start,
-                end,
-                page: i,
-            }                  
-        } else {
-            Chunk {
-                text: Some(chunk.to_string()),
-                start,
-                end,
-                page: i,
-            }                
-        }
-    })
-    .collect()
-}
-
-fn make_chunks_markdown<Sizer: text_splitter::ChunkSizer>(
-        splitter: &MarkdownSplitter<Sizer>, 
-        text: &String, 
-        i: std::option::Option<usize>, 
-        compact: bool) -> Vec<Chunk> {
-        splitter
+        // 1. Collect the results into a mutable Vector
+        let mut chunks: Vec<Chunk> = splitter
         .chunks(text)
         .map(|chunk| {
             let start = text.find(chunk).unwrap_or(0);
@@ -159,6 +131,61 @@ fn make_chunks_markdown<Sizer: text_splitter::ChunkSizer>(
             }
         })
         .collect()
+        
+    // 2. If the vector is empty, push the default empty chunk
+    if chunks.is_empty() {
+        chunks.push(Chunk {
+            text: if compact { None } else { Some("".to_string()) },
+            start: 0,
+            end: 0,
+            page: i,
+        });
+    }
+    
+    // 3. Return the vector
+    chunks
+}
+
+fn make_chunks_markdown<Sizer: text_splitter::ChunkSizer>(
+        splitter: &MarkdownSplitter<Sizer>, 
+        text: &String, 
+        i: std::option::Option<usize>, 
+        compact: bool) -> Vec<Chunk> {
+            let mut chunks: Vec<Chunk> = splitter
+            .chunks(text)
+            .map(|chunk| {
+                let start = text.find(chunk).unwrap_or(0);
+                let end = start + chunk.len();
+                if compact {
+                    Chunk {
+                        text: None,
+                        start,
+                        end,
+                        page: i,
+                    }                  
+                } else {
+                    Chunk {
+                        text: Some(chunk.to_string()),
+                        start,
+                        end,
+                        page: i,
+                    }                
+                }
+            })
+            .collect()
+            
+        // 2. If the vector is empty, push the default empty chunk
+        if chunks.is_empty() {
+            chunks.push(Chunk {
+                text: if compact { None } else { Some("".to_string()) },
+                start: 0,
+                end: 0,
+                page: i,
+            });
+        }
+        
+        // 3. Return the vector
+        chunks    
     }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
