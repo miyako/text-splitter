@@ -101,7 +101,7 @@ Function execute($command : Variant; $message : Variant; $context : Variant) : c
 		var $workers : Collection
 		$workers:=This:C1470.workers
 		
-		$terminated:=$workers.countValues(True:C214; "terminated")=$workers.length
+		$terminated:=$workers.countValues(True:C214; "worker.terminated")=$workers.length
 		
 		This:C1470._execute($terminated)
 		
@@ -164,7 +164,7 @@ Function _onExecute($worker : 4D:C1709.SystemWorker; $params : Object)
 	
 Function _countRunningWorkers() : Integer
 	
-	return This:C1470.workers.countValues(False:C215; "terminated")
+	return This:C1470.workers.countValues(False:C215; "worker.terminated")
 	
 Function _execute($start : Boolean)
 	
