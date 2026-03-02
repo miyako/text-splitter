@@ -95,7 +95,7 @@ Function execute($command : Variant; $message : Variant; $context : Variant) : c
 	If ($commands#Null:C1517) && ($commands.length#0)
 		
 		This:C1470._commands.combine($commands)
-		This:C1470._messages.combine($messages)
+		This:C1470._messages.combine($messages.copy(ck shared:K85:29; This:C1470._messages))
 		This:C1470._contexts.combine($contexts.copy(ck shared:K85:29; This:C1470._contexts))
 		
 		var $workers : Collection

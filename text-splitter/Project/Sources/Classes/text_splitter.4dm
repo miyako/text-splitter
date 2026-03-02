@@ -84,7 +84,7 @@ Function chunk($option : Variant; $formula : 4D:C1709.Function) : Collection
 			: (Value type:C1509($option.file)=Is object:K8:27) && (OB Instance of:C1731($option.file; 4D:C1709.File)) && ($option.file.exists)
 				$command+=" --input "
 				$command+=This:C1470.text_splitter.escape(This:C1470.text_splitter.expand($option.file).path)
-			: ((Value type:C1509($option.file)=Is object:K8:27) && (OB Instance of:C1731($option.file; 4D:C1709.Blob))) || (Value type:C1509($option.file)=Is BLOB:K8:12) || (Value type:C1509($option.file)=Is text:K8:3)
+			: (Value type:C1509($option.file)=Is object:K8:27) || (Value type:C1509($option.file)=Is BLOB:K8:12) || (Value type:C1509($option.file)=Is text:K8:3)
 				$command+=" "
 				$isStream:=True:C214
 		End case 
