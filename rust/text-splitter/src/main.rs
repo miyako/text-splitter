@@ -130,7 +130,7 @@ fn make_chunks_tiktoken<Sizer: text_splitter::ChunkSizer>(
                 }                
             }
         })
-        .collect()
+        .collect();
         
     // 2. If the vector is empty, push the default empty chunk
     if chunks.is_empty() {
@@ -172,7 +172,7 @@ fn make_chunks_markdown<Sizer: text_splitter::ChunkSizer>(
                     }                
                 }
             })
-            .collect()
+            .collect();
             
         // 2. If the vector is empty, push the default empty chunk
         if chunks.is_empty() {
