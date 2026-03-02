@@ -147,8 +147,12 @@ Function _onExecute($worker : 4D:C1709.SystemWorker; $params : Object)
 	cs:C1710.logger.new().log([$instanceName; "End"; $worker.pid; This:C1470._commands.length])
 	
 	var $i : Integer
-	$i:=__SYSTEM_WORKERS__[$instanceName].indexOf($worker)
+	$i:=__SYSTEM_WORKERS__[$instanceName].findIndex(Formula:C1597($1.result:=$1.value.worker.pid=$2); $worker.pid)
 	If ($i#-1)
+		If (OB Instance of:C1731(This:C1470._onResponse; 4D:C1709.Function))
+			$params.context:=__SYSTEM_WORKERS__[$instanceName].at($i).context
+			This:C1470._onResponse.call(This:C1470; $worker; $params)
+		End if 
 		__SYSTEM_WORKERS__[$instanceName].remove($i)
 	End if 
 	
@@ -156,11 +160,6 @@ Function _onExecute($worker : 4D:C1709.SystemWorker; $params : Object)
 		This:C1470._abort()
 	Else 
 		This:C1470._execute(True:C214)
-	End if 
-	
-	If (OB Instance of:C1731(This:C1470._onResponse; 4D:C1709.Function))
-		$params.context:=This:C1470._contexts.shift()
-		This:C1470._onResponse.call(This:C1470; $worker; $params)
 	End if 
 	
 Function _countRunningWorkers() : Integer
@@ -174,6 +173,7 @@ Function _execute($start : Boolean)
 	
 	If ($start)
 		var $command : Text
+		var $context : Variant
 		var $i; $length; $runningWorkers; $count : Integer
 		$length:=This:C1470._commands.length
 		$threads:=This:C1470.instance.system.threads
@@ -184,9 +184,10 @@ Function _execute($start : Boolean)
 		
 		For ($i; 1; $count)
 			$command:=This:C1470._commands.shift()
+			$context:=This:C1470._contexts.shift()
 			$worker:=4D:C1709.SystemWorker.new($command; This:C1470)
 			cs:C1710.logger.new().log([$instanceName; "Start"; $worker.pid; This:C1470._commands.length])
-			__SYSTEM_WORKERS__[$instanceName].push($worker)
+			__SYSTEM_WORKERS__[$instanceName].push({worker: $worker; context: $context})
 			Use (This:C1470)
 				This:C1470._complete:=False:C215
 			End use 
