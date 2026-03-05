@@ -110,9 +110,8 @@ fn make_chunks_tiktoken<Sizer: text_splitter::ChunkSizer>(
     compact: bool) -> Vec<Chunk> {
         // 1. Collect the results into a mutable Vector
         let mut chunks: Vec<Chunk> = splitter
-        .chunks(text)
-        .map(|chunk| {
-            let start = text.find(chunk).unwrap_or(0);
+        .chunk_indices(text) // <-- Use chunk_indices here
+        .map(|(start, chunk)| { // <-- get the exact start offset and chunk
             let end = start + chunk.len();
             if compact {
                 Chunk {
@@ -152,9 +151,8 @@ fn make_chunks_markdown<Sizer: text_splitter::ChunkSizer>(
         i: std::option::Option<usize>, 
         compact: bool) -> Vec<Chunk> {
             let mut chunks: Vec<Chunk> = splitter
-            .chunks(text)
-            .map(|chunk| {
-                let start = text.find(chunk).unwrap_or(0);
+            .chunk_indices(text) // <-- Use chunk_indices here
+            .map(|(start, chunk)| { // <-- get the exact start offset and chunk
                 let end = start + chunk.len();
                 if compact {
                     Chunk {
