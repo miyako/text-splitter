@@ -7,7 +7,7 @@
   ],
   "license": "MIT",
   "repository": "https://github.com/miyako/text-splitter",
-  "version": "21.0.20",
+  "version": "21.1.0",
   "tool": {
     "platform": "macos",
     "branch": "21.x",
