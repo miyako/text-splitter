@@ -66,7 +66,7 @@ use `$params.context` to match input against output.
 |`trim`|`Boolean`|default: `False`|
 |`markdown`|`Boolean`|default: `False`|
 |`tiktoken`|`Boolean`|default: `False`|
-|`compact`|`Boolean`|output without inclde text. default: `False`|
+|`compact`|`Boolean`|output without included text. default: `False`|
 |`batch`|`Boolean`|input is JSON collection of text. default: `False`|
 
 > Results are returned as collection of JSON text, not collection of collections. Use `JSON Parse` if necessary.
